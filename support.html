@@ -3,23 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexora | Confirmación</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;800&display=swap" rel="stylesheet">
+    <title>Soporte Técnico | Nexora</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body { background: #000; color: #fff; font-family: 'Inter', sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; text-align: center; }
-        .card { padding: 60px; border: 1px solid rgba(255,255,255,0.1); border-radius: 40px; background: rgba(255,255,255,0.02); backdrop-filter: blur(20px); max-width: 400px; }
-        .icon { font-size: 50px; color: #4ade80; margin-bottom: 20px; }
-        h1 { font-weight: 800; letter-spacing: -1px; }
-        p { color: #888; line-height: 1.6; }
-        .btn { display: inline-block; margin-top: 30px; padding: 15px 30px; background: #4ade80; color: #000; text-decoration: none; border-radius: 12px; font-weight: 700; }
+        :root {
+            --bg-deep: #000000; --nexora-green: #4ade80; --text-primary: #ffffff;
+            --text-dim: #86868b; --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-deep); color: var(--text-primary); overflow-x: hidden; }
+        canvas#bg-canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
+        
+        nav { position: fixed; top: 0; width: 100%; height: 80px; background: rgba(0,0,0,0.8); backdrop-filter: blur(20px); z-index: 9999; border-bottom: 1px solid var(--border); display: flex; justify-content: center; }
+        .nav-inner { width: 100%; max-width: 1200px; display: flex; justify-content: space-between; align-items: center; padding: 0 30px; }
+        .logo-container { display: flex; align-items: center; gap: 10px; text-decoration: none; color: white; font-weight: 700; font-size: 20px; }
+
+        .page-header { padding: 160px 10% 60px; max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
+        .page-header h1 { font-size: clamp(40px, 7vw, 72px); font-weight: 800; background: linear-gradient(to bottom, #fff, #666); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .support-card { background: var(--glass); border: 1px solid var(--border); border-radius: 28px; padding: 45px; backdrop-filter: blur(10px); max-width: 400px; margin: 0 auto; position: relative; z-index: 2; text-align: center; }
+        
+        .btn-ticket { background: var(--nexora-green); color: black; border: none; padding: 16px 32px; border-radius: 14px; font-weight: 700; cursor: pointer; transition: 0.3s; width: 100%; margin-top: 20px; text-transform: uppercase; }
+        .btn-ticket:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(74, 222, 128, 0.3); }
+
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); z-index: 10000; display: none; align-items: center; justify-content: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: #080808; border: 1px solid var(--border); width: 90%; max-width: 500px; padding: 40px; border-radius: 30px; }
+
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; font-size: 11px; color: var(--text-dim); margin-bottom: 8px; font-weight: 700; text-transform: uppercase; }
+        .form-group input, .form-group textarea { width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 15px; border-radius: 12px; color: white; outline: none; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <div class="icon">✓</div>
-        <h1>¡Ticket Abierto!</h1>
-        <p>Héctor, tu solicitud ha sido enviada exitosamente a <strong>ceo.nexora.gt@gmail.com</strong>. Te contactaremos en menos de 45 minutos.</p>
-        <a href="support.html" class="btn">REGRESAR</a>
+    <canvas id="bg-canvas"></canvas>
+    <nav>
+        <div class="nav-inner">
+            <a href="index.html" class="logo-container"><i data-lucide="layout-grid" style="color: var(--nexora-green)"></i>NEXORA</a>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <span>SISTEMA DE TICKETS</span>
+        <h1>Soporte Nexora.</h1>
+    </header>
+
+    <div class="support-card">
+        <i data-lucide="shield-check" style="color: var(--nexora-green); margin-bottom: 20px; width: 40px; height: 40px;"></i>
+        <h3>Asistencia Técnica</h3>
+        <p style="color: var(--text-dim); font-size: 14px; margin-top: 10px;">Abre un ticket para reportar incidencias.</p>
+        <button class="btn-ticket" onclick="openModal()">Generar Ticket</button>
     </div>
+
+    <div class="modal" id="ticketModal">
+        <div class="modal-content animate__animated animate__zoomIn">
+            <h2 style="margin-bottom: 25px;">Nuevo Ticket</h2>
+            <form id="nexora-form" action="https://formspree.io/f/xgoedzbk" method="POST">
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label>Correo</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Incidencia</label>
+                    <textarea name="message" rows="4" required></textarea>
+                </div>
+                <button type="submit" id="submit-btn" class="btn-ticket">ENVIAR AHORA</button>
+            </form>
+            <button onclick="closeModal()" style="margin-top: 15px; background: none; border: none; color: var(--text-dim); cursor: pointer; width: 100%; font-size: 12px;">CERRAR</button>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        function openModal() { document.getElementById('ticketModal').classList.add('active'); }
+        function closeModal() { document.getElementById('ticketModal').classList.remove('active'); }
+
+        const form = document.getElementById("nexora-form");
+        const btn = document.getElementById("submit-btn");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            btn.disabled = true;
+            btn.innerText = "ENVIANDO...";
+            
+            const data = new FormData(form);
+            fetch(form.action, {
+                method: 'POST',
+                body: data,
+                headers: { 'Accept': 'application/json' } // Esto silencia la redirección de Formspree
+            }).then(response => {
+                if (response.ok) {
+                    window.location.href = "gracias.html";
+                } else {
+                    alert("Error al procesar. Revisa tu conexión.");
+                    btn.disabled = false;
+                    btn.innerText = "ENVIAR AHORA";
+                }
+            });
+        });
+
+        // Partículas
+        const canvas = document.getElementById('bg-canvas'); const ctx = canvas.getContext('2d'); let particles = [];
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.onresize = resize; resize();
+        class Particle {
+            constructor() { this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; this.vx = (Math.random() - 0.5) * 0.3; this.vy = (Math.random() - 0.5) * 0.3; this.size = 1; }
+            update() { this.x += this.vx; this.y += this.vy; if(this.x < 0 || this.x > canvas.width) this.vx *= -1; if(this.y < 0 || this.y > canvas.height) this.vy *= -1; }
+            draw() { ctx.fillStyle = '#4ade80'; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
+        }
+        for(let i=0; i<60; i++) particles.push(new Particle());
+        function animate() {
+            ctx.clearRect(0,0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
 </body>
 </html>
