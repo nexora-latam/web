@@ -21,7 +21,7 @@
             --text-dim: #86868b;
             --glass: rgba(255, 255, 255, 0.03);
             --border: rgba(255, 255, 255, 0.08);
-            --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
@@ -37,6 +37,8 @@
             line-height: 1.5;
         }
 
+        body.menu-open { overflow: hidden; }
+
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: var(--bg-deep); }
@@ -46,7 +48,7 @@
         nav {
             position: fixed;
             top: 0; width: 100%; height: 80px;
-            background: rgba(0,0,0,0.85);
+            background: rgba(0,0,0,0.8);
             backdrop-filter: blur(20px);
             z-index: 9999;
             border-bottom: 1px solid var(--border);
@@ -62,35 +64,51 @@
         .logo-container {
             display: flex; align-items: center; gap: 10px;
             text-decoration: none; color: white; font-weight: 700; font-size: 20px;
-            letter-spacing: -1px;
+            letter-spacing: -1px; z-index: 10001;
         }
 
         .nav-links { display: flex; gap: 25px; align-items: center; }
         .nav-links a {
             color: var(--text-dim); text-decoration: none; font-size: 13px;
             transition: var(--transition); font-weight: 500;
-            letter-spacing: 0.5px;
-            position: relative;
+            letter-spacing: 0.5px; position: relative;
         }
 
-        .nav-links a:hover { color: var(--nexora-green); }
+        .nav-links a:hover, .nav-links a.active { color: var(--nexora-green); }
 
-        /* Estado Activo Profesional */
-        .nav-links a.active {
-            color: var(--nexora-green);
-            font-weight: 600;
-        }
-        
-        .nav-links a.active::after {
-            content: '';
-            position: absolute;
-            bottom: -5px; left: 0;
-            width: 100%; height: 2px;
-            background: var(--nexora-green);
-            box-shadow: 0 0 10px var(--nexora-green);
+        /* Hamburguesa */
+        .menu-toggle {
+            display: none;
+            background: none; border: none; color: white;
+            cursor: pointer; z-index: 10001; transition: var(--transition);
         }
 
-        /* --- HERO SECTION --- */
+        /* --- RESPONSIVE MENU LOGIC --- */
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+
+            .nav-links {
+                position: fixed;
+                top: 0; right: -100%;
+                width: 100%; height: 100vh;
+                background: rgba(0, 0, 0, 0.95);
+                backdrop-filter: blur(25px);
+                flex-direction: column;
+                justify-content: center;
+                gap: 40px;
+                transition: var(--transition);
+                z-index: 10000;
+            }
+
+            .nav-links.active { right: 0; }
+
+            .nav-links a { font-size: 24px; font-weight: 700; }
+            
+            .stats-bar { flex-direction: column; gap: 40px; text-align: center; }
+            .cta-group { flex-direction: column; width: 100%; }
+        }
+
+        /* --- HERO & CONTENT (Sin cambios significativos) --- */
         #hero {
             height: 100vh;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
@@ -98,7 +116,6 @@
         }
 
         canvas#bg-canvas { position: absolute; top: 0; left: 0; z-index: 1; }
-
         .hero-content { position: relative; z-index: 2; padding: 0 20px; }
 
         .hero-badge {
@@ -110,19 +127,19 @@
         }
 
         h1.hero-title {
-            font-size: clamp(50px, 10vw, 100px);
-            font-weight: 800; letter-spacing: -0.05em; line-height: 0.9;
+            font-size: clamp(45px, 8vw, 90px);
+            font-weight: 800; letter-spacing: -0.05em; line-height: 1;
             margin-bottom: 30px;
             background: linear-gradient(180deg, #fff 0%, #444 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
         .hero-subtext {
-            font-size: clamp(18px, 3vw, 24px);
-            color: var(--text-dim); max-width: 700px; margin: 0 auto 40px;
+            font-size: clamp(16px, 3vw, 20px);
+            color: var(--text-dim); max-width: 600px; margin: 0 auto 40px;
         }
 
-        .cta-group { display: flex; gap: 20px; justify-content: center; }
+        .cta-group { display: flex; gap: 15px; justify-content: center; }
 
         .btn-pro {
             background: white; color: black; padding: 16px 35px;
@@ -138,8 +155,7 @@
         }
         .btn-outline:hover { border-color: var(--nexora-green); color: var(--nexora-green); }
 
-        /* --- STATS BAR --- */
-        .section-wrap { padding: 0 5% 100px; max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
+        .section-wrap { padding: 80px 5%; max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
         
         .stats-bar {
             display: flex; justify-content: space-between;
@@ -147,25 +163,16 @@
         }
 
         .stat-item h4 { font-size: 40px; color: var(--nexora-green); margin-bottom: 5px; }
-        .stat-item p { color: var(--text-dim); text-transform: uppercase; font-size: 12px; letter-spacing: 1px; }
+        .stat-item p { color: var(--text-dim); text-transform: uppercase; font-size: 11px; letter-spacing: 2px; }
 
-        /* --- FOOTER --- */
         footer {
             padding: 80px 5% 40px; text-align: center; border-top: 1px solid var(--border);
             background: var(--bg-soft);
         }
 
         .social-icons { display: flex; justify-content: center; gap: 25px; margin-bottom: 40px; }
-        .social-icons a { color: var(--text-dim); font-size: 24px; transition: var(--transition); }
-        .social-icons a:hover { color: var(--nexora-green); transform: scale(1.2); }
-
-        @media (max-width: 768px) {
-            .nav-inner { flex-direction: column; height: auto; padding: 20px; }
-            nav { height: auto; position: relative; }
-            .nav-links { margin-top: 20px; flex-wrap: wrap; justify-content: center; gap: 15px; }
-            .stats-bar { flex-direction: column; gap: 40px; text-align: center; }
-            .cta-group { flex-direction: column; width: 100%; }
-        }
+        .social-icons a { color: var(--text-dim); transition: var(--transition); }
+        .social-icons a:hover { color: var(--nexora-green); transform: translateY(-3px); }
     </style>
 </head>
 <body>
@@ -176,7 +183,12 @@
                 <i data-lucide="layout-grid" style="color: var(--nexora-green)"></i>
                 NEXORA
             </a>
-            <div class="nav-links">
+
+            <button class="menu-toggle" id="menu-btn">
+                <i data-lucide="menu" id="menu-icon"></i>
+            </button>
+
+            <div class="nav-links" id="nav-links">
                 <a href="index.html" class="active">Inicio</a>
                 <a href="services.html">Servicios</a>
                 <a href="support.html">Soporte</a>
@@ -189,10 +201,10 @@
     <section id="hero">
         <canvas id="bg-canvas"></canvas>
         <div class="hero-content">
-            <span class="hero-badge" data-aos="fade-down">CON NEXORA ESPERAMOS EL 2026</span>
-            <h1 class="hero-title" data-aos="zoom-in" data-aos-delay="200">Ingeniería<br>Sin Límites.</h1>
-            <p class="hero-subtext" data-aos="fade-up" data-aos-delay="400">Desarrollo élite, infraestructura robusta, ciberseguridad y soporte técnico.</p>
-            <div class="cta-group" data-aos="fade-up" data-aos-delay="600">
+            <span class="hero-badge" data-aos="fade-down">NEXORA ECOSYSTEM 2026</span>
+            <h1 class="hero-title" data-aos="zoom-in">Ingeniería<br>Sin Límites.</h1>
+            <p class="hero-subtext" data-aos="fade-up" data-aos-delay="200">Soluciones de alto rendimiento en desarrollo, infraestructura y ciberseguridad.</p>
+            <div class="cta-group" data-aos="fade-up" data-aos-delay="400">
                 <a href="https://wa.me/50255630559" class="btn-pro">Iniciar Proyecto</a>
                 <a href="services.html" class="btn-outline">Explorar Servicios</a>
             </div>
@@ -207,7 +219,7 @@
             </div>
             <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
                 <h4>Guatemala</h4>
-                <p>Presencia Regional</p>
+                <p>Sede Central</p>
             </div>
             <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
                 <h4>24/7</h4>
@@ -223,14 +235,44 @@
             <a href="#"><i data-lucide="twitter"></i></a>
         </div>
         <p style="color: var(--text-dim); font-size: 13px;">Copyright © 2025 Nexora Technology.</p>
-        <p style="color: var(--nexora-green); font-size: 11px; margin-top: 15px; letter-spacing: 3px; font-weight: 800;">STAY HUNGRY. STAY FOOLISH.</p>
+        <p style="color: var(--nexora-green); font-size: 10px; margin-top: 15px; letter-spacing: 4px; font-weight: 800; opacity: 0.7;">STAY HUNGRY. STAY FOOLISH.</p>
     </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
+        // Inicialización de Animaciones e Iconos
         AOS.init({ duration: 1000, once: true });
         lucide.createIcons();
 
+        // LÓGICA DEL MENÚ HAMBURGUESA PROFESSIONAL
+        const menuBtn = document.getElementById('menu-btn');
+        const navLinks = document.getElementById('nav-links');
+        const menuIcon = document.getElementById('menu-icon');
+        const body = document.body;
+
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const isOpen = navLinks.classList.contains('active');
+            
+            // Cambiar icono con Lucide
+            menuIcon.setAttribute('data-lucide', isOpen ? 'x' : 'menu');
+            lucide.createIcons();
+
+            // Bloquear scroll cuando el menú esté abierto
+            body.classList.toggle('menu-open', isOpen);
+        });
+
+        // Cerrar menú al hacer click en un enlace (importante para UX)
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                body.classList.remove('menu-open');
+                menuIcon.setAttribute('data-lucide', 'menu');
+                lucide.createIcons();
+            });
+        });
+
+        // FONDO ANIMADO DE PARTÍCULAS (Original Mejorado)
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -288,5 +330,3 @@
     </script>
 </body>
 </html>
-
-
