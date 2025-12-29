@@ -13,7 +13,6 @@
             --bg-deep: #000000; 
             --bg-soft: #0a0a0a; 
             --nexora-green: #4ade80;
-            --nexora-glow: rgba(74, 222, 128, 0.15); 
             --text-primary: #ffffff;
             --text-dim: #86868b; 
             --glass: rgba(255, 255, 255, 0.03);
@@ -24,14 +23,12 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
         body { background-color: var(--bg-deep); color: var(--text-primary); overflow-x: hidden; line-height: 1.5; }
         
-        /* Scrollbar Personalizado */
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--bg-deep); }
         ::-webkit-scrollbar-thumb { background: var(--nexora-green); border-radius: 10px; }
 
         canvas#bg-canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
 
-        /* NAV */
+        /* NAVEGACIÓN */
         nav { position: fixed; top: 0; width: 100%; height: 80px; background: rgba(0,0,0,0.8); backdrop-filter: blur(20px); z-index: 9999; border-bottom: 1px solid var(--border); display: flex; justify-content: center; }
         .nav-inner { width: 100%; max-width: 1200px; display: flex; justify-content: space-between; align-items: center; padding: 0 30px; }
         .logo-container { display: flex; align-items: center; gap: 10px; text-decoration: none; color: white; font-weight: 700; font-size: 20px; letter-spacing: -1px; }
@@ -44,10 +41,10 @@
         .page-header span { color: var(--nexora-green); font-size: 12px; font-weight: 700; letter-spacing: 3px; }
         .page-header h1 { font-size: clamp(40px, 7vw, 72px); font-weight: 800; letter-spacing: -3px; line-height: 1.1; margin-top: 15px; background: linear-gradient(to bottom, #fff, #666); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* GRID SOPORTE */
+        /* GRID DE SOPORTE */
         .support-grid { max-width: 1200px; margin: 0 auto 100px; padding: 0 25px; position: relative; z-index: 2; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
         .support-card { background: var(--glass); border: 1px solid var(--border); border-radius: 28px; padding: 45px; transition: var(--transition); backdrop-filter: blur(10px); display: flex; flex-direction: column; justify-content: space-between; height: 100%; }
-        .support-card:hover { border-color: var(--nexora-green); background: rgba(74, 222, 128, 0.04); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        .support-card:hover { border-color: var(--nexora-green); background: rgba(74, 222, 128, 0.04); transform: translateY(-5px); }
         
         .btn-ticket { background: var(--nexora-green); color: black; border: none; padding: 16px 32px; border-radius: 14px; font-weight: 700; font-size: 13px; cursor: pointer; transition: var(--transition); text-decoration: none; display: inline-block; text-align: center; margin-top: 25px; text-transform: uppercase; letter-spacing: 1px; }
         .btn-ticket:hover { transform: scale(1.03); box-shadow: 0 0 25px rgba(74, 222, 128, 0.4); }
@@ -55,24 +52,16 @@
         /* MODAL */
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.3s ease; }
         .modal.active { display: flex; opacity: 1; }
-        .modal-content { background: #080808; border: 1px solid var(--border); width: 100%; max-width: 550px; padding: 50px; border-radius: 35px; position: relative; box-shadow: 0 0 50px rgba(0,0,0,1); }
-        .close-modal { position: absolute; top: 30px; right: 30px; color: var(--text-dim); cursor: pointer; border: none; background: none; transition: var(--transition); }
-        .close-modal:hover { color: var(--nexora-green); transform: rotate(90deg); }
+        .modal-content { background: #080808; border: 1px solid var(--border); width: 100%; max-width: 550px; padding: 50px; border-radius: 35px; position: relative; }
+        .close-modal { position: absolute; top: 30px; right: 30px; color: var(--text-dim); cursor: pointer; border: none; background: none; }
 
-        /* INPUTS */
-        .form-group { margin-bottom: 22px; }
+        /* FORMULARIO */
+        .form-group { margin-bottom: 22px; text-align: left; }
         .form-group label { display: block; font-size: 11px; color: var(--text-dim); margin-bottom: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; }
         .form-group input, .form-group textarea, .form-group select { width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 16px; border-radius: 14px; color: white; font-size: 14px; outline: none; transition: var(--transition); }
-        .form-group input:focus, .form-group textarea:focus { border-color: var(--nexora-green); background: rgba(255,255,255,0.07); box-shadow: 0 0 15px rgba(74, 222, 128, 0.1); }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--nexora-green); background: rgba(255,255,255,0.07); }
         
-        select option { background: #0a0a0a; color: white; }
-
-        footer { padding: 80px 5% 40px; text-align: center; border-top: 1px solid var(--border); position: relative; z-index: 2; background: #050505; }
-
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .modal-content { padding: 30px; }
-        }
+        footer { padding: 80px 5% 40px; text-align: center; border-top: 1px solid var(--border); position: relative; z-index: 2; }
     </style>
 </head>
 <body>
@@ -91,76 +80,75 @@
     </nav>
 
     <header class="page-header" data-aos="fade-right">
-        <span>NEXORA HELP CENTER</span>
-        <h1>Soluciones de<br>Alto Nivel.</h1>
+        <span>HELP DESK 24/7</span>
+        <h1>Centro de<br>Asistencia.</h1>
     </header>
 
     <section class="support-grid">
         <div class="support-card" data-aos="fade-up">
             <div>
-                <h3 style="margin-bottom: 15px;">Infraestructura</h3>
-                <p style="color: var(--text-dim); font-size: 14px; margin-bottom: 25px;">Monitoreo activo de servidores y servicios en la nube.</p>
+                <h3 style="margin-bottom: 15px;">Estado del Sistema</h3>
+                <p style="color: var(--text-dim); font-size: 14px; margin-bottom: 25px;">Monitoreo global de infraestructura.</p>
                 <div style="display: flex; align-items: center; background: rgba(74,222,128,0.05); padding: 18px; border-radius: 18px; border: 1px solid rgba(74,222,128,0.15);">
                     <div style="width: 10px; height: 10px; background: var(--nexora-green); border-radius: 50%; margin-right: 12px; box-shadow: 0 0 12px var(--nexora-green);"></div>
-                    <span style="font-size: 12px; font-weight: 700; color: var(--nexora-green); letter-spacing: 1px;">SISTEMAS ONLINE</span>
+                    <span style="font-size: 12px; font-weight: 700; color: var(--nexora-green); letter-spacing: 1px;">SISTEMAS OPERATIVOS</span>
                 </div>
             </div>
         </div>
 
         <div class="support-card" data-aos="fade-up" data-aos-delay="100" style="border-color: rgba(74, 222, 128, 0.3);">
             <div>
-                <i data-lucide="shield-check" style="color: var(--nexora-green); margin-bottom: 20px;"></i>
-                <h3>Soporte Directo</h3>
-                <p style="color: var(--text-dim); font-size: 14px;">¿Necesitas intervención técnica avanzada? Nuestro equipo élite está listo para ayudarte.</p>
+                <i data-lucide="mail" style="color: var(--nexora-green); margin-bottom: 20px;"></i>
+                <h3>Tickets de Soporte</h3>
+                <p style="color: var(--text-dim); font-size: 14px;">Envía una solicitud técnica directamente a nuestro equipo.</p>
             </div>
-            <button class="btn-ticket" onclick="openModal()">Generar Ticket</button>
+            <button class="btn-ticket" onclick="openModal()">Abrir Ticket</button>
         </div>
 
         <div class="support-card" data-aos="fade-up" data-aos-delay="200">
             <div>
-                <i data-lucide="terminal" style="color: var(--nexora-green); margin-bottom: 20px;"></i>
-                <h3>Base de Datos</h3>
-                <p style="color: var(--text-dim); font-size: 14px;">Accede a nuestra documentación técnica para autogestión de servicios.</p>
+                <i data-lucide="book-open" style="color: var(--nexora-green); margin-bottom: 20px;"></i>
+                <h3>Documentación</h3>
+                <p style="color: var(--text-dim); font-size: 14px;">Guías rápidas para configuración de servicios.</p>
             </div>
-            <a href="#" style="color: var(--nexora-green); text-decoration: none; font-size: 12px; font-weight: 800; margin-top: 30px; display: block; letter-spacing: 1px;">EXPLORAR WIKI →</a>
+            <a href="#" style="color: var(--nexora-green); text-decoration: none; font-size: 12px; font-weight: 800; margin-top: 30px; display: block;">VER RECURSOS →</a>
         </div>
     </section>
 
     <div class="modal" id="ticketModal">
         <div class="modal-content animate__animated animate__zoomIn">
             <button class="close-modal" onclick="closeModal()"><i data-lucide="x"></i></button>
-            <h2 style="margin-bottom: 10px; font-size: 28px; letter-spacing: -1px;">Abrir Nuevo Ticket</h2>
-            <p style="color: var(--text-dim); font-size: 14px; margin-bottom: 35px;">Completa el formulario para recibir asistencia prioritaria.</p>
+            <h2 style="margin-bottom: 10px;">Nuevo Ticket</h2>
+            <p style="color: var(--text-dim); font-size: 14px; margin-bottom: 35px;">Tu solicitud será procesada por nuestro equipo de IT.</p>
             
             <form action="https://formspree.io/f/xgoedzbk" method="POST">
                 <div class="form-group">
-                    <label>Nombre del Cliente</label>
-                    <input type="text" name="cliente" placeholder="Nombre o Empresa" required>
+                    <label>Nombre Completo</label>
+                    <input type="text" name="name" placeholder="Ej. Hector Reyes" required>
                 </div>
                 <div class="form-group">
-                    <label>Correo Electrónico de Respuesta</label>
-                    <input type="email" name="email" placeholder="ejemplo@dominio.com" required>
+                    <label>Correo de Contacto</label>
+                    <input type="email" name="email" placeholder="correo@ejemplo.com" required>
                 </div>
                 <div class="form-group">
-                    <label>Prioridad / Área</label>
-                    <select name="prioridad">
-                        <option value="critico">CRÍTICO (Soporte Inmediato)</option>
-                        <option value="tecnico">Técnico / Infraestructura</option>
-                        <option value="comercial">Comercial / Facturación</option>
+                    <label>Prioridad</label>
+                    <select name="priority">
+                        <option value="normal">Normal</option>
+                        <option value="alta">Alta / Urgente</option>
+                        <option value="critica">Crítica (Soporte 24/7)</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Descripción de la Incidencia</label>
-                    <textarea name="descripcion" rows="4" placeholder="Detalla el problema aquí..." required></textarea>
+                    <label>Descripción del Problema</label>
+                    <textarea name="message" rows="4" placeholder="¿En qué podemos ayudarte?" required></textarea>
                 </div>
-                <input type="hidden" name="_next" value="https://tuweb.com/gracias.html">
-                <button type="submit" class="btn-ticket" style="width: 100%;">ENVIAR AL DEPARTAMENTO TÉCNICO</button>
+                <button type="submit" class="btn-ticket" style="width: 100%;">Enviar al Soporte de Nexora</button>
             </form>
         </div>
     </div>
 
     <footer>
-        <p style="color: var(--text-dim); font-size: 13px; font-weight: 300;">© 2025 Nexora Technology. Built for Excellence.</p>
+        <p style="color: var(--text-dim); font-size: 13px;">© 2025 Nexora Technology. Todos los derechos reservados.</p>
         <p style="color: var(--nexora-green); font-size: 10px; margin-top: 15px; letter-spacing: 5px; font-weight: 800; opacity: 0.6;">STAY HUNGRY. STAY FOOLISH.</p>
     </footer>
 
@@ -169,20 +157,17 @@
         AOS.init({ duration: 1000, once: true }); 
         lucide.createIcons();
 
-        // Modal Logic
+        // Lógica del Modal
         function openModal() {
-            const modal = document.getElementById('ticketModal');
-            modal.classList.add('active');
+            document.getElementById('ticketModal').classList.add('active');
             document.body.style.overflow = 'hidden';
         }
-
         function closeModal() {
-            const modal = document.getElementById('ticketModal');
-            modal.classList.remove('active');
+            document.getElementById('ticketModal').classList.remove('active');
             document.body.style.overflow = 'auto';
         }
 
-        // Particle System
+        // Sistema de Partículas
         const canvas = document.getElementById('bg-canvas'); const ctx = canvas.getContext('2d'); let particles = [];
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.onresize = resize; resize();
@@ -191,14 +176,14 @@
             update() { this.x += this.vx; this.y += this.vy; if(this.x < 0 || this.x > canvas.width) this.vx *= -1; if(this.y < 0 || this.y > canvas.height) this.vy *= -1; }
             draw() { ctx.fillStyle = '#4ade80'; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
         }
-        for(let i=0; i<75; i++) particles.push(new Particle());
+        for(let i=0; i<70; i++) particles.push(new Particle());
         function animate() {
             ctx.clearRect(0,0, canvas.width, canvas.height);
             particles.forEach((p, index) => {
                 p.update(); p.draw();
                 for(let j=index+1; j<particles.length; j++) {
                     const p2 = particles[j]; const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-                    if(dist < 140) { ctx.strokeStyle = `rgba(74, 222, 128, ${0.12 - dist/140 * 0.12})`; ctx.lineWidth = 0.5; ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y); ctx.stroke(); }
+                    if(dist < 130) { ctx.strokeStyle = `rgba(74, 222, 128, ${0.15 - dist/130 * 0.15})`; ctx.lineWidth = 0.5; ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y); ctx.stroke(); }
                 }
             });
             requestAnimationFrame(animate);
