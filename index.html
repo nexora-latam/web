@@ -21,7 +21,7 @@
             --text-dim: #86868b;
             --glass: rgba(255, 255, 255, 0.03);
             --border: rgba(255, 255, 255, 0.08);
-            --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
@@ -36,11 +36,6 @@
             overflow-x: hidden;
             line-height: 1.5;
         }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--bg-deep); }
-        ::-webkit-scrollbar-thumb { background: var(--nexora-green); border-radius: 10px; }
 
         /* --- NAVIGATION --- */
         nav {
@@ -62,35 +57,58 @@
         .logo-container {
             display: flex; align-items: center; gap: 10px;
             text-decoration: none; color: white; font-weight: 700; font-size: 20px;
-            letter-spacing: -1px;
+            letter-spacing: -1px; z-index: 10001;
         }
 
         .nav-links { display: flex; gap: 25px; align-items: center; }
+        
         .nav-links a {
             color: var(--text-dim); text-decoration: none; font-size: 13px;
             transition: var(--transition); font-weight: 500;
-            letter-spacing: 0.5px;
-            position: relative;
+            letter-spacing: 0.5px; position: relative;
         }
 
-        .nav-links a:hover { color: var(--nexora-green); }
+        .nav-links a:hover, .nav-links a.active { color: var(--nexora-green); }
 
-        /* Estado Activo Profesional */
-        .nav-links a.active {
-            color: var(--nexora-green);
-            font-weight: 600;
-        }
-        
-        .nav-links a.active::after {
-            content: '';
-            position: absolute;
-            bottom: -5px; left: 0;
-            width: 100%; height: 2px;
-            background: var(--nexora-green);
-            box-shadow: 0 0 10px var(--nexora-green);
+        /* Botón Hamburguesa (Oculto en PC) */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            z-index: 10001;
         }
 
-        /* --- HERO SECTION --- */
+        /* --- RESPONSIVE / MOBILE MENU --- */
+        @media (max-width: 768px) {
+            .mobile-menu-btn { display: block; }
+
+            .nav-links {
+                position: fixed;
+                top: 0; right: -100%; /* Escondido a la derecha */
+                width: 80%; height: 100vh;
+                background: rgba(10, 10, 10, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                justify-content: center;
+                gap: 40px;
+                transition: var(--transition);
+                border-left: 1px solid var(--border);
+                z-index: 10000;
+            }
+
+            .nav-links.active {
+                right: 0; /* Aparece al activarse */
+            }
+
+            .nav-links a {
+                font-size: 20px;
+                font-weight: 600;
+            }
+        }
+
+        /* --- HERO & CONTENT (Sin cambios significativos) --- */
         #hero {
             height: 100vh;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
@@ -98,28 +116,21 @@
         }
 
         canvas#bg-canvas { position: absolute; top: 0; left: 0; z-index: 1; }
-
         .hero-content { position: relative; z-index: 2; padding: 0 20px; }
 
         .hero-badge {
-            background: var(--nexora-glow);
-            color: var(--nexora-green);
+            background: var(--nexora-glow); color: var(--nexora-green);
             padding: 6px 16px; border-radius: 100px;
             font-size: 12px; font-weight: 600; margin-bottom: 20px;
             display: inline-block; border: 1px solid var(--nexora-green);
         }
 
         h1.hero-title {
-            font-size: clamp(50px, 10vw, 100px);
-            font-weight: 800; letter-spacing: -0.05em; line-height: 0.9;
+            font-size: clamp(40px, 10vw, 100px);
+            font-weight: 800; letter-spacing: -0.05em; line-height: 1;
             margin-bottom: 30px;
             background: linear-gradient(180deg, #fff 0%, #444 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-
-        .hero-subtext {
-            font-size: clamp(18px, 3vw, 24px);
-            color: var(--text-dim); max-width: 700px; margin: 0 auto 40px;
         }
 
         .cta-group { display: flex; gap: 20px; justify-content: center; }
@@ -127,44 +138,28 @@
         .btn-pro {
             background: white; color: black; padding: 16px 35px;
             border-radius: 100px; text-decoration: none; font-weight: 600;
-            transition: var(--transition); border: 1px solid white;
+            transition: var(--transition);
         }
-        .btn-pro:hover { background: transparent; color: white; transform: translateY(-5px); }
 
         .btn-outline {
             background: transparent; color: white; padding: 16px 35px;
             border-radius: 100px; text-decoration: none; font-weight: 600;
             border: 1px solid var(--border); transition: var(--transition);
         }
-        .btn-outline:hover { border-color: var(--nexora-green); color: var(--nexora-green); }
 
-        /* --- STATS BAR --- */
-        .section-wrap { padding: 0 5% 100px; max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
-        
         .stats-bar {
             display: flex; justify-content: space-between;
             padding: 60px 0; border-top: 1px solid var(--border);
         }
 
-        .stat-item h4 { font-size: 40px; color: var(--nexora-green); margin-bottom: 5px; }
-        .stat-item p { color: var(--text-dim); text-transform: uppercase; font-size: 12px; letter-spacing: 1px; }
+        @media (max-width: 768px) {
+            .stats-bar { flex-direction: column; gap: 40px; text-align: center; }
+            .cta-group { flex-direction: column; }
+        }
 
-        /* --- FOOTER --- */
         footer {
             padding: 80px 5% 40px; text-align: center; border-top: 1px solid var(--border);
             background: var(--bg-soft);
-        }
-
-        .social-icons { display: flex; justify-content: center; gap: 25px; margin-bottom: 40px; }
-        .social-icons a { color: var(--text-dim); font-size: 24px; transition: var(--transition); }
-        .social-icons a:hover { color: var(--nexora-green); transform: scale(1.2); }
-
-        @media (max-width: 768px) {
-            .nav-inner { flex-direction: column; height: auto; padding: 20px; }
-            nav { height: auto; position: relative; }
-            .nav-links { margin-top: 20px; flex-wrap: wrap; justify-content: center; gap: 15px; }
-            .stats-bar { flex-direction: column; gap: 40px; text-align: center; }
-            .cta-group { flex-direction: column; width: 100%; }
         }
     </style>
 </head>
@@ -176,7 +171,12 @@
                 <i data-lucide="layout-grid" style="color: var(--nexora-green)"></i>
                 NEXORA
             </a>
-            <div class="nav-links">
+
+            <button class="mobile-menu-btn" id="menu-toggle">
+                <i data-lucide="menu" id="menu-icon"></i>
+            </button>
+
+            <div class="nav-links" id="nav-links">
                 <a href="index.html" class="active">Inicio</a>
                 <a href="services.html">Servicios</a>
                 <a href="support.html">Soporte</a>
@@ -190,40 +190,34 @@
         <canvas id="bg-canvas"></canvas>
         <div class="hero-content">
             <span class="hero-badge" data-aos="fade-down">CON NEXORA ESPERAMOS EL 2026</span>
-            <h1 class="hero-title" data-aos="zoom-in" data-aos-delay="200">Ingeniería<br>Sin Límites.</h1>
-            <p class="hero-subtext" data-aos="fade-up" data-aos-delay="400">Desarrollo élite, infraestructura robusta, ciberseguridad y soporte técnico.</p>
-            <div class="cta-group" data-aos="fade-up" data-aos-delay="600">
+            <h1 class="hero-title" data-aos="zoom-in">Ingeniería<br>Sin Límites.</h1>
+            <p style="color: var(--text-dim); margin-bottom: 40px;" data-aos="fade-up">Desarrollo élite, infraestructura robusta y ciberseguridad.</p>
+            <div class="cta-group" data-aos="fade-up">
                 <a href="https://wa.me/50255630559" class="btn-pro">Iniciar Proyecto</a>
                 <a href="services.html" class="btn-outline">Explorar Servicios</a>
             </div>
         </div>
     </section>
 
-    <div class="section-wrap">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 30px;">
         <div class="stats-bar">
             <div class="stat-item" data-aos="fade-up">
-                <h4>99.9%</h4>
-                <p>Uptime Garantizado</p>
+                <h4 style="font-size: 40px; color: var(--nexora-green);">99.9%</h4>
+                <p style="color: var(--text-dim); font-size: 12px; letter-spacing: 1px;">UPTIME</p>
             </div>
             <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
-                <h4>Guatemala</h4>
-                <p>Presencia Regional</p>
+                <h4 style="font-size: 40px; color: var(--nexora-green);">Guatemala</h4>
+                <p style="color: var(--text-dim); font-size: 12px; letter-spacing: 1px;">ORIGEN</p>
             </div>
             <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
-                <h4>24/7</h4>
-                <p>Soporte Crítico</p>
+                <h4 style="font-size: 40px; color: var(--nexora-green);">24/7</h4>
+                <p style="color: var(--text-dim); font-size: 12px; letter-spacing: 1px;">SOPORTE</p>
             </div>
         </div>
     </div>
 
     <footer>
-        <div class="social-icons">
-            <a href="#"><i data-lucide="github"></i></a>
-            <a href="#"><i data-lucide="linkedin"></i></a>
-            <a href="#"><i data-lucide="twitter"></i></a>
-        </div>
         <p style="color: var(--text-dim); font-size: 13px;">Copyright © 2025 Nexora Technology.</p>
-        <p style="color: var(--nexora-green); font-size: 11px; margin-top: 15px; letter-spacing: 3px; font-weight: 800;">STAY HUNGRY. STAY FOOLISH.</p>
     </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -231,6 +225,30 @@
         AOS.init({ duration: 1000, once: true });
         lucide.createIcons();
 
+        // --- LÓGICA DEL MENÚ MÓVIL ---
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+        const menuIcon = document.getElementById('menu-icon');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            
+            // Cambiar el icono de "menu" a "x"
+            const isOpen = navLinks.classList.contains('active');
+            menuIcon.setAttribute('data-lucide', isOpen ? 'x' : 'menu');
+            lucide.createIcons(); // Refrescar iconos de Lucide
+        });
+
+        // Cerrar menú al hacer clic en un link (opcional pero recomendado)
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                menuIcon.setAttribute('data-lucide', 'menu');
+                lucide.createIcons();
+            });
+        });
+
+        // --- ANIMACIÓN DE FONDO (CANVAS) ---
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -288,6 +306,3 @@
     </script>
 </body>
 </html>
-
-
-
