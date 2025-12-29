@@ -14,10 +14,12 @@
         :root {
             --bg-deep: #000000;
             --nexora-green: #4ade80;
+            --nexora-glow: rgba(74, 222, 128, 0.15);
             --text-primary: #ffffff;
             --text-dim: #86868b;
             --border: rgba(255, 255, 255, 0.1);
             --glass: rgba(255, 255, 255, 0.02);
+            --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
@@ -31,29 +33,53 @@
 
         canvas#bg-canvas { position: fixed; top: 0; left: 0; z-index: -1; }
 
-        /* --- NAV --- */
+        /* --- NAVIGATION (Sincronizada con index) --- */
         nav {
-            position: fixed; top: 0; width: 100%; height: 70px;
-            background: rgba(0,0,0,0.8); backdrop-filter: blur(20px);
-            z-index: 9999; border-bottom: 1px solid var(--border);
+            position: fixed;
+            top: 0; width: 100%; height: 80px;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(20px);
+            z-index: 9999;
+            border-bottom: 1px solid var(--border);
             display: flex; justify-content: center;
         }
 
         .nav-inner {
             width: 100%; max-width: 1200px;
-            display: flex; justify-content: space-between; align-items: center; padding: 0 25px;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 30px;
         }
 
         .logo-container {
-            display: flex; align-items: center; gap: 8px;
-            text-decoration: none; color: white; font-weight: 800; font-size: 18px; letter-spacing: -0.5px;
+            display: flex; align-items: center; gap: 10px;
+            text-decoration: none; color: white; font-weight: 700; font-size: 20px;
+            letter-spacing: -1px;
         }
 
+        .nav-links { display: flex; gap: 25px; align-items: center; }
         .nav-links a {
             color: var(--text-dim); text-decoration: none; font-size: 13px;
-            margin-left: 25px; transition: 0.3s;
+            transition: var(--transition); font-weight: 500;
+            letter-spacing: 0.5px;
+            position: relative;
         }
+
         .nav-links a:hover { color: var(--nexora-green); }
+
+        /* Estado Activo Profesional */
+        .nav-links a.active {
+            color: var(--nexora-green);
+            font-weight: 600;
+        }
+        
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px; left: 0;
+            width: 100%; height: 2px;
+            background: var(--nexora-green);
+            box-shadow: 0 0 10px var(--nexora-green);
+        }
 
         /* --- HEADER --- */
         .page-header {
@@ -120,10 +146,12 @@
 
         /* --- RESPONSIVE OPTIMIZATION --- */
         @media (max-width: 768px) {
-            .page-header { padding-top: 120px; text-align: center; }
+            .nav-inner { flex-direction: column; height: auto; padding: 20px; }
+            nav { height: auto; position: relative; }
+            .nav-links { margin-top: 20px; flex-wrap: wrap; justify-content: center; gap: 15px; }
+            .page-header { padding-top: 60px; text-align: center; }
             .services-container { grid-template-columns: 1fr; }
             .service-card { padding: 40px 30px; }
-            .nav-links { display: none; } /* Mobile simplicity */
         }
     </style>
 </head>
@@ -139,7 +167,10 @@
             </a>
             <div class="nav-links">
                 <a href="index.html">Inicio</a>
-                <a href="https://wa.me/50255630559" style="color: white; font-weight: 600;">Contacto</a>
+                <a href="services.html" class="active">Servicios</a>
+                <a href="support.html">Soporte</a>
+                <a href="contact.html">Contacto</a>
+                <a href="about.html">Acerca de nosotros</a>
             </div>
         </div>
     </nav>
@@ -198,7 +229,6 @@
         AOS.init({ duration: 1000, once: true });
         lucide.createIcons();
 
-        // Partículas sutiles (el usuario pidió mantenerlas)
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
