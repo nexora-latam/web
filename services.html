@@ -37,6 +37,23 @@
             line-height: 1.5;
         }
 
+        /* --- CUSTOM SCROLLBAR (NUEVO) --- */
+        ::-webkit-scrollbar { 
+            width: 6px; 
+        }
+        ::-webkit-scrollbar-track { 
+            background: var(--bg-deep); 
+        }
+        ::-webkit-scrollbar-thumb { 
+            background: var(--nexora-green); 
+            border-radius: 10px; 
+        }
+        /* Para Firefox */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--nexora-green) var(--bg-deep);
+        }
+
         /* Bloqueo de scroll cuando el menú está abierto */
         body.menu-open { overflow: hidden; }
 
@@ -74,7 +91,6 @@
 
         .nav-links a:hover, .nav-links a.active { color: var(--nexora-green); }
 
-        /* Hamburguesa */
         .menu-toggle {
             display: none;
             background: none; border: none; color: white;
@@ -82,10 +98,8 @@
             padding: 10px;
         }
 
-        /* --- RESPONSIVE MENU LOGIC --- */
         @media (max-width: 768px) {
             .menu-toggle { display: block; }
-
             .nav-links {
                 position: fixed;
                 top: 0; right: -100%;
@@ -100,17 +114,15 @@
                 opacity: 0;
                 visibility: hidden;
             }
-
             .nav-links.active { 
                 right: 0; 
                 opacity: 1;
                 visibility: visible;
             }
-
             .nav-links a { font-size: 24px; font-weight: 700; }
         }
 
-        /* --- HEADER --- */
+        /* --- CONTENT --- */
         .page-header {
             padding: 160px 10% 60px;
             max-width: 1200px; margin: 0 auto;
@@ -129,7 +141,6 @@
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        /* --- SERVICES GRID --- */
         .services-container {
             max-width: 1200px; margin: 0 auto 100px;
             padding: 0 25px; position: relative; z-index: 2;
@@ -159,9 +170,6 @@
             background: rgba(74, 222, 128, 0.1);
             border-radius: 12px; color: var(--nexora-green);
         }
-
-        .service-card h3 { font-size: 26px; font-weight: 700; letter-spacing: -1px; }
-        .service-card p { color: var(--text-dim); font-size: 16px; line-height: 1.6; font-weight: 300; }
 
         footer {
             padding: 80px 5% 40px; text-align: center; border-top: 1px solid var(--border);
@@ -203,19 +211,19 @@
         <div class="service-card" data-aos="fade-up">
             <div class="icon-box"><i data-lucide="terminal"></i></div>
             <h3>Desarrollo Web Full-Stack</h3>
-            <p>Arquitecturas robustas con React y Node.js. Diseñamos interfaces de alto impacto con rendimiento optimizado.</p>
+            <p>Arquitecturas robustas con React y Node.js. Diseñamos interfaces de alto impacto.</p>
         </div>
 
         <div class="service-card" data-aos="fade-up" data-aos-delay="100">
             <div class="icon-box"><i data-lucide="shield-check"></i></div>
             <h3>Ciberseguridad</h3>
-            <p>Auditorías de penetración y blindaje de servidores para asegurar la integridad de tus datos más críticos.</p>
+            <p>Auditorías de penetración y blindaje de servidores para asegurar tus datos críticos.</p>
         </div>
 
         <div class="service-card" data-aos="fade-up" data-aos-delay="200">
             <div class="icon-box"><i data-lucide="settings"></i></div>
             <h3>Mantenimiento Pro</h3>
-            <p>Ingeniería de hardware aplicada. Maximizamos el ciclo de vida de tu infraestructura IT con soporte de nivel élite.</p>
+            <p>Soporte de nivel élite para maximizar el ciclo de vida de tu infraestructura IT.</p>
         </div>
     </section>
 
@@ -226,11 +234,9 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Inicialización General
         AOS.init({ duration: 1000, once: true });
         lucide.createIcons();
 
-        // --- LÓGICA DE NAVEGACIÓN (MISMA QUE INDEX) ---
         const menuBtn = document.getElementById('menu-btn');
         const navLinks = document.getElementById('nav-links');
         const body = document.body;
@@ -238,15 +244,8 @@
         function toggleMenu() {
             const isOpen = navLinks.classList.toggle('active');
             body.classList.toggle('menu-open', isOpen);
-            
             const icon = menuBtn.querySelector('i') || menuBtn.querySelector('svg');
-            
-            if (isOpen) {
-                icon.setAttribute('data-lucide', 'x');
-            } else {
-                icon.setAttribute('data-lucide', 'menu');
-            }
-            
+            icon.setAttribute('data-lucide', isOpen ? 'x' : 'menu');
             lucide.createIcons();
         }
 
@@ -255,24 +254,17 @@
             toggleMenu();
         });
 
-        // Cerrar al clickear links
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
                 if(navLinks.classList.contains('active')) toggleMenu();
             });
         });
 
-        // --- FONDO DE PARTÍCULAS ---
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
-
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.onresize = resize;
-        resize();
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.onresize = resize; resize();
 
         class Particle {
             constructor() {
@@ -289,9 +281,7 @@
             }
             draw() {
                 ctx.fillStyle = '#4ade80';
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
             }
         }
 
@@ -306,11 +296,7 @@
                     const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
                     if(dist < 130) {
                         ctx.strokeStyle = `rgba(74, 222, 128, ${0.15 - dist/130 * 0.15})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.beginPath();
-                        ctx.moveTo(p.x, p.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.stroke();
+                        ctx.lineWidth = 0.5; ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
                     }
                 }
             });
