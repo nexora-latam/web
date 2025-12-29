@@ -14,26 +14,19 @@
         :root {
             --bg-deep: #000000;
             --nexora-green: #4ade80;
-            --nexora-glow: rgba(74, 222, 128, 0.15);
             --text-primary: #ffffff;
             --text-dim: #86868b;
             --border: rgba(255, 255, 255, 0.08);
             --glass: rgba(255, 255, 255, 0.02);
-            --transition-smooth: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            --transition-pro: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-
-        body {
-            background-color: var(--bg-deep);
-            color: var(--text-primary);
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
+        body { background-color: var(--bg-deep); color: white; overflow-x: hidden; }
 
         canvas#bg-canvas { position: fixed; top: 0; left: 0; z-index: -1; }
 
-        /* --- NAVEGACIÓN PRO --- */
+        /* --- NAVIGATION --- */
         nav {
             position: fixed;
             top: 0; width: 100%; height: 80px;
@@ -53,118 +46,91 @@
         .logo-container {
             display: flex; align-items: center; gap: 10px;
             text-decoration: none; color: white; font-weight: 800; font-size: 22px;
-            letter-spacing: -1px; z-index: 10002;
+            z-index: 10002;
         }
 
-        /* Desktop Links */
+        /* Desktop */
         .nav-links-desktop { display: flex; gap: 30px; }
         .nav-links-desktop a {
             color: var(--text-dim); text-decoration: none; font-size: 13px;
-            font-weight: 500; transition: 0.3s; position: relative;
+            font-weight: 500; transition: 0.3s;
         }
-        .nav-links-desktop a:hover, .nav-links-desktop a.active { color: var(--nexora-green); }
-        
-        .nav-links-desktop a.active::after {
-            content: ''; position: absolute; bottom: -5px; left: 0;
-            width: 100%; height: 2px; background: var(--nexora-green);
-            box-shadow: 0 0 10px var(--nexora-green);
-        }
+        .nav-links-desktop a.active { color: var(--nexora-green); }
 
-        /* Botón Menú Móvil */
+        /* --- BUG FIX: BOTÓN DE MENÚ --- */
         .menu-btn {
             display: none; background: none; border: none; color: white;
-            cursor: pointer; z-index: 10002; padding: 10px;
+            cursor: pointer; z-index: 10002; position: relative;
+            width: 40px; height: 40px;
         }
 
-        /* Mobile Overlay */
+        /* Posicionamos ambos iconos uno sobre otro */
+        .menu-btn i {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            transition: var(--transition-pro);
+        }
+
+        /* Estado inicial: mostrar menú, ocultar X */
+        .btn-icon-x { opacity: 0; transform: translate(-50%, -50%) rotate(-90deg) !important; }
+        
+        /* Cuando el menú está activo */
+        .menu-btn.is-active .btn-icon-menu { opacity: 0; transform: translate(-50%, -50%) rotate(90deg) !important; }
+        .menu-btn.is-active .btn-icon-x { opacity: 1; transform: translate(-50%, -50%) rotate(0deg) !important; }
+
+        /* --- MOBILE OVERLAY --- */
         .mobile-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100vh;
-            background: rgba(0, 0, 0, 0.95);
+            background: rgba(0, 0, 0, 0.98);
             backdrop-filter: blur(25px);
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
             z-index: 10001;
-            opacity: 0; pointer-events: none;
-            transition: var(--transition-smooth);
+            visibility: hidden; opacity: 0;
+            transition: var(--transition-pro);
         }
 
-        .mobile-overlay.active { opacity: 1; pointer-events: all; }
+        .mobile-overlay.active { visibility: visible; opacity: 1; }
 
-        .mobile-nav-links { display: flex; flex-direction: column; gap: 25px; text-align: center; }
-        
+        .mobile-nav-links { display: flex; flex-direction: column; gap: 30px; text-align: center; }
         .mobile-nav-links a {
-            color: white; text-decoration: none; font-size: 32px;
-            font-weight: 700; opacity: 0; transform: translateY(20px);
-            transition: var(--transition-smooth);
+            color: white; text-decoration: none; font-size: 35px; font-weight: 700;
+            transform: translateY(30px); opacity: 0;
+            transition: var(--transition-pro);
         }
 
-        .mobile-overlay.active .mobile-nav-links a { opacity: 1; transform: translateY(0); }
-        
-        /* Delays para efecto cascada */
+        .mobile-overlay.active .mobile-nav-links a { transform: translateY(0); opacity: 1; }
         .mobile-nav-links a:nth-child(1) { transition-delay: 0.1s; }
         .mobile-nav-links a:nth-child(2) { transition-delay: 0.2s; }
         .mobile-nav-links a:nth-child(3) { transition-delay: 0.3s; }
         .mobile-nav-links a:nth-child(4) { transition-delay: 0.4s; }
-        .mobile-nav-links a:nth-child(5) { transition-delay: 0.5s; }
 
         @media (max-width: 768px) {
             .nav-links-desktop { display: none; }
             .menu-btn { display: block; }
         }
 
-        /* --- CONTENIDO --- */
-        .page-header {
-            padding: 160px 10% 60px;
-            max-width: 1200px; margin: 0 auto;
-        }
-
-        .page-header span {
-            color: var(--nexora-green); font-size: 12px; font-weight: 700;
-            letter-spacing: 3px; text-transform: uppercase;
-        }
-
-        .page-header h1 {
-            font-size: clamp(40px, 7vw, 72px);
-            font-weight: 800; letter-spacing: -3px; line-height: 1; margin-top: 15px;
-            background: linear-gradient(to bottom, #fff, #666);
+        /* --- ESTILOS DE CONTENIDO --- */
+        .page-header { padding: 160px 10% 60px; max-width: 1200px; margin: 0 auto; }
+        .page-header h1 { 
+            font-size: clamp(40px, 8vw, 70px); font-weight: 800; 
+            background: linear-gradient(to bottom, #fff, #444);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
         .services-container {
-            max-width: 1200px; margin: 0 auto 100px;
-            padding: 0 25px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
+            max-width: 1200px; margin: 0 auto 100px; padding: 0 25px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;
         }
 
         .service-card {
-            background: var(--glass);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 50px 40px;
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            display: flex; flex-direction: column; gap: 20px;
+            background: var(--glass); border: 1px solid var(--border);
+            border-radius: 20px; padding: 40px; transition: 0.4s;
         }
-
-        .service-card:hover {
-            border-color: var(--nexora-green);
-            background: rgba(74, 222, 128, 0.03);
-            transform: translateY(-8px);
-        }
-
-        .icon-box {
-            width: 50px; height: 50px;
-            display: flex; align-items: center; justify-content: center;
-            background: rgba(74, 222, 128, 0.1);
-            border-radius: 12px; color: var(--nexora-green);
-        }
-
-        footer {
-            padding: 60px 25px; text-align: center;
-            border-top: 1px solid var(--border); background: #050505;
-        }
+        .service-card:hover { border-color: var(--nexora-green); transform: translateY(-5px); }
+        .icon-box { color: var(--nexora-green); margin-bottom: 20px; }
     </style>
 </head>
 <body>
@@ -183,11 +149,11 @@
                 <a href="services.html" class="active">Servicios</a>
                 <a href="support.html">Soporte</a>
                 <a href="contact.html">Contacto</a>
-                <a href="about.html">Acerca de</a>
             </div>
 
-            <button class="menu-btn" id="menu-toggle">
-                <i data-lucide="menu" id="menu-icon"></i>
+            <button class="menu-btn" id="menu-toggle" aria-label="Abrir menú">
+                <i data-lucide="menu" class="btn-icon-menu"></i>
+                <i data-lucide="x" class="btn-icon-x"></i>
             </button>
         </div>
     </nav>
@@ -198,104 +164,69 @@
             <a href="services.html" class="active">Servicios</a>
             <a href="support.html">Soporte</a>
             <a href="contact.html">Contacto</a>
-            <a href="about.html">Nosotros</a>
         </div>
     </div>
 
-    <header class="page-header" data-aos="fade-right">
-        <span>Engineering Excellence</span>
-        <h1>Soluciones<br>Empresariales.</h1>
+    <header class="page-header" data-aos="fade-up">
+        <span style="color: var(--nexora-green); font-weight: 700; letter-spacing: 2px;">PREMIUM SERVICES</span>
+        <h1>Soluciones<br>de Ingeniería.</h1>
     </header>
 
     <section class="services-container">
-        
         <div class="service-card" data-aos="fade-up">
-            <div class="icon-box"><i data-lucide="terminal"></i></div>
-            <h3>Desarrollo Web Full-Stack</h3>
-            <p style="color: var(--text-dim); font-weight: 300;">Arquitecturas robustas con React y Node.js. Interfaces de alto impacto optimizadas para el mercado global.</p>
+            <div class="icon-box"><i data-lucide="terminal" size="32"></i></div>
+            <h3>Web Development</h3>
+            <p style="color: var(--text-dim); margin-top: 10px;">Aplicaciones web de alto rendimiento con arquitectura escalable.</p>
         </div>
-
         <div class="service-card" data-aos="fade-up" data-aos-delay="100">
-            <div class="icon-box"><i data-lucide="shield-check"></i></div>
-            <h3>Ciberseguridad</h3>
-            <p style="color: var(--text-dim); font-weight: 300;">Auditorías de penetración y blindaje de servidores para asegurar la integridad de tus datos más críticos.</p>
+            <div class="icon-box"><i data-lucide="shield-check" size="32"></i></div>
+            <h3>Cybersecurity</h3>
+            <p style="color: var(--text-dim); margin-top: 10px;">Protección de activos digitales y auditorías de seguridad avanzada.</p>
         </div>
-
         <div class="service-card" data-aos="fade-up" data-aos-delay="200">
-            <div class="icon-box"><i data-lucide="settings"></i></div>
-            <h3>Mantenimiento Pro</h3>
-            <p style="color: var(--text-dim); font-weight: 300;">Ingeniería de hardware aplicada. Maximizamos el ciclo de vida de tu infraestructura IT.</p>
+            <div class="icon-box"><i data-lucide="cpu" size="32"></i></div>
+            <h3>Infrastructure</h3>
+            <p style="color: var(--text-dim); margin-top: 10px;">Optimización de servidores y gestión de redes empresariales.</p>
         </div>
-
-        <div class="service-card" data-aos="fade-up">
-            <div class="icon-box"><i data-lucide="moon"></i></div>
-            <h3>Soporte Nocturno</h3>
-            <p style="color: var(--text-dim); font-weight: 300;">Gestión remota ininterrumpida. Resolvemos incidencias técnicas mientras tú descansas.</p>
-        </div>
-
-        <div class="service-card" data-aos="fade-up" data-aos-delay="100">
-            <div class="icon-box"><i data-lucide="cloud"></i></div>
-            <h3>Cloud & Infraestructura</h3>
-            <p style="color: var(--text-dim); font-weight: 300;">Migración y escalabilidad en AWS y Azure para una disponibilidad global absoluta.</p>
-        </div>
-
-        <div class="service-card" data-aos="fade-up" data-aos-delay="200">
-            <div class="icon-box"><i data-lucide="database"></i></div>
-            <h3>Gestión de Activos</h3>
-            <p style="color: var(--text-dim); font-weight: 300;">Sistemas inteligentes para el control de inventarios, licencias y trazabilidad IT.</p>
-        </div>
-
     </section>
-
-    <footer>
-        <p style="color: var(--text-dim); font-size: 13px;">Copyright © 2025 Nexora Technology. <br>Liderado por Hector Reyes.</p>
-    </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 1000, once: true });
         lucide.createIcons();
 
-        // --- LÓGICA DEL MENÚ ---
+        // --- LÓGICA DEL MENÚ (REPARADA) ---
         const menuToggle = document.getElementById('menu-toggle');
         const mobileMenu = document.getElementById('mobile-menu');
         let isMenuOpen = false;
 
-        function toggleMenu() {
+        menuToggle.addEventListener('click', () => {
             isMenuOpen = !isMenuOpen;
+            
+            // Toggle de clases
+            menuToggle.classList.toggle('is-active');
             mobileMenu.classList.toggle('active');
             
-            // Cambio de icono con fix de persistencia
-            if (isMenuOpen) {
-                menuToggle.innerHTML = '<i data-lucide="x"></i>';
-                document.body.style.overflow = 'hidden';
-            } else {
-                menuToggle.innerHTML = '<i data-lucide="menu"></i>';
-                document.body.style.overflow = 'auto';
-            }
-            lucide.createIcons();
-        }
+            // Bloquear scroll
+            document.body.style.overflow = isMenuOpen ? 'hidden' : 'auto';
+        });
 
-        menuToggle.addEventListener('click', toggleMenu);
-
-        // Cerrar menú al tocar un link
+        // Cerrar al clickear links
         document.querySelectorAll('.mobile-nav-links a').forEach(link => {
             link.addEventListener('click', () => {
-                if(isMenuOpen) toggleMenu();
+                isMenuOpen = false;
+                menuToggle.classList.remove('is-active');
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = 'auto';
             });
         });
 
-        // --- FONDO DE PARTÍCULAS ---
+        // --- BACKGROUND ---
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
-
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.onresize = resize;
-        resize();
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.onresize = resize; resize();
 
         class Particle {
             constructor() {
@@ -303,7 +234,6 @@
                 this.y = Math.random() * canvas.height;
                 this.vx = (Math.random() - 0.5) * 0.4;
                 this.vy = (Math.random() - 0.5) * 0.4;
-                this.size = 1.2;
             }
             update() {
                 this.x += this.vx; this.y += this.vy;
@@ -312,22 +242,19 @@
             }
             draw() {
                 ctx.fillStyle = '#4ade80';
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.arc(this.x, this.y, 1.2, 0, Math.PI * 2); ctx.fill();
             }
         }
-
         for(let i=0; i<60; i++) particles.push(new Particle());
-
         function animate() {
             ctx.clearRect(0,0, canvas.width, canvas.height);
-            particles.forEach((p, index) => {
+            particles.forEach((p, i) => {
                 p.update(); p.draw();
-                for(let j=index+1; j<particles.length; j++) {
-                    const p2 = particles[j];
-                    const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+                for(let j=i+1; j<particles.length; j++) {
+                    const dist = Math.hypot(p.x - particles[j].x, p.y - particles[j].y);
                     if(dist < 130) {
                         ctx.strokeStyle = `rgba(74, 222, 128, ${0.15 - dist/130 * 0.15})`;
-                        ctx.lineWidth = 0.5; ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
+                        ctx.lineWidth = 0.5; ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke();
                     }
                 }
             });
