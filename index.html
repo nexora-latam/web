@@ -45,8 +45,8 @@
         /* --- NAVIGATION --- */
         nav {
             position: fixed;
-            top: 0; width: 100%; height: 70px;
-            background: rgba(0,0,0,0.8);
+            top: 0; width: 100%; height: 80px;
+            background: rgba(0,0,0,0.85);
             backdrop-filter: blur(20px);
             z-index: 9999;
             border-bottom: 1px solid var(--border);
@@ -65,12 +65,30 @@
             letter-spacing: -1px;
         }
 
-        .nav-links { display: flex; gap: 30px; }
+        .nav-links { display: flex; gap: 25px; align-items: center; }
         .nav-links a {
             color: var(--text-dim); text-decoration: none; font-size: 13px;
-            transition: var(--transition); font-weight: 400;
+            transition: var(--transition); font-weight: 500;
+            letter-spacing: 0.5px;
+            position: relative;
         }
+
         .nav-links a:hover { color: var(--nexora-green); }
+
+        /* Estado Activo Profesional */
+        .nav-links a.active {
+            color: var(--nexora-green);
+            font-weight: 600;
+        }
+        
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px; left: 0;
+            width: 100%; height: 2px;
+            background: var(--nexora-green);
+            box-shadow: 0 0 10px var(--nexora-green);
+        }
 
         /* --- HERO SECTION --- */
         #hero {
@@ -142,6 +160,9 @@
         .social-icons a:hover { color: var(--nexora-green); transform: scale(1.2); }
 
         @media (max-width: 768px) {
+            .nav-inner { flex-direction: column; height: auto; padding: 20px; }
+            nav { height: auto; position: relative; }
+            .nav-links { margin-top: 20px; flex-wrap: wrap; justify-content: center; gap: 15px; }
             .stats-bar { flex-direction: column; gap: 40px; text-align: center; }
             .cta-group { flex-direction: column; width: 100%; }
         }
@@ -156,9 +177,11 @@
                 NEXORA
             </a>
             <div class="nav-links">
+                <a href="index.html" class="active">Inicio</a>
                 <a href="services.html">Servicios</a>
-                <a href="https://wa.me/50255630559">Soporte</a>
-                <a href="https://wa.me/50255630559" style="color: white; font-weight: 600;">Contacto</a>
+                <a href="support.html">Soporte</a>
+                <a href="contact.html">Contacto</a>
+                <a href="about.html">Acerca de nosotros</a>
             </div>
         </div>
     </nav>
@@ -166,9 +189,9 @@
     <section id="hero">
         <canvas id="bg-canvas"></canvas>
         <div class="hero-content">
-            <span class="hero-badge" data-aos="fade-down">CON NEXORA ESPERAMOS EL 2026</span>
+            <span class="hero-badge" data-aos="fade-down">NEXORA ENTERPRISE SOLUTIONS</span>
             <h1 class="hero-title" data-aos="zoom-in" data-aos-delay="200">Ingeniería<br>Sin Límites.</h1>
-            <p class="hero-subtext" data-aos="fade-up" data-aos-delay="400">Desarrollo élite, infraestructura robusta y soporte técnico a un nivel profesional proporcionado por Nexora.</p>
+            <p class="hero-subtext" data-aos="fade-up" data-aos-delay="400">Desarrollo élite, infraestructura robusta y soporte técnico nivel Silicon Valley liderado por Hector Reyes.</p>
             <div class="cta-group" data-aos="fade-up" data-aos-delay="600">
                 <a href="https://wa.me/50255630559" class="btn-pro">Iniciar Proyecto</a>
                 <a href="services.html" class="btn-outline">Explorar Servicios</a>
@@ -183,7 +206,7 @@
                 <p>Uptime Garantizado</p>
             </div>
             <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
-                <h4>Guatemala</h4>
+                <h4>+502</h4>
                 <p>Presencia Regional</p>
             </div>
             <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
@@ -199,19 +222,15 @@
             <a href="#"><i data-lucide="linkedin"></i></a>
             <a href="#"><i data-lucide="twitter"></i></a>
         </div>
-        <p style="color: var(--text-dim); font-size: 13px;">Copyright © 2025 Nexora Technology.</p>
+        <p style="color: var(--text-dim); font-size: 13px;">Copyright © 2025 Nexora Technology. Producido por Hector Reyes.</p>
         <p style="color: var(--nexora-green); font-size: 11px; margin-top: 15px; letter-spacing: 3px; font-weight: 800;">STAY HUNGRY. STAY FOOLISH.</p>
     </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // 1. Inicializar AOS
         AOS.init({ duration: 1000, once: true });
-
-        // 2. Inicializar Iconos
         lucide.createIcons();
 
-        // 3. Sistema de Partículas (Fondo)
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -269,4 +288,3 @@
     </script>
 </body>
 </html>
-
