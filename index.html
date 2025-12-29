@@ -11,39 +11,25 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     
     <style>
-        /* --- CORE DESIGN SYSTEM --- */
         :root {
             --bg-deep: #000000;
-            --bg-soft: #0a0a0a;
             --nexora-green: #4ade80;
-            --nexora-glow: rgba(74, 222, 128, 0.15);
             --text-primary: #ffffff;
             --text-dim: #86868b;
-            --glass: rgba(255, 255, 255, 0.03);
             --border: rgba(255, 255, 255, 0.08);
-            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        * {
-            margin: 0; padding: 0; box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        body {
-            background-color: var(--bg-deep);
-            color: var(--text-primary);
-            overflow-x: hidden;
-            line-height: 1.5;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: var(--bg-deep); color: white; overflow-x: hidden; }
 
         /* --- NAVIGATION --- */
         nav {
             position: fixed;
             top: 0; width: 100%; height: 80px;
-            background: rgba(0,0,0,0.85);
+            background: rgba(0,0,0,0.7);
             backdrop-filter: blur(20px);
-            z-index: 9999;
+            z-index: 10000;
             border-bottom: 1px solid var(--border);
             display: flex; justify-content: center;
         }
@@ -56,110 +42,85 @@
 
         .logo-container {
             display: flex; align-items: center; gap: 10px;
-            text-decoration: none; color: white; font-weight: 700; font-size: 20px;
-            letter-spacing: -1px; z-index: 10001;
+            text-decoration: none; color: white; font-weight: 800; font-size: 22px;
+            letter-spacing: -1px; z-index: 10002;
         }
 
-        .nav-links { display: flex; gap: 25px; align-items: center; }
-        
-        .nav-links a {
+        /* --- DESKTOP LINKS --- */
+        .nav-links-desktop { display: flex; gap: 30px; }
+        .nav-links-desktop a {
             color: var(--text-dim); text-decoration: none; font-size: 13px;
-            transition: var(--transition); font-weight: 500;
-            letter-spacing: 0.5px; position: relative;
+            font-weight: 500; transition: 0.3s;
         }
+        .nav-links-desktop a:hover { color: var(--nexora-green); }
 
-        .nav-links a:hover, .nav-links a.active { color: var(--nexora-green); }
+        /* --- MOBILE MENU BUTTON --- */
+        .menu-btn {
+            display: none; background: none; border: none; color: white;
+            cursor: pointer; z-index: 10002; padding: 10px;
+            transition: transform 0.3s ease;
+        }
+        .menu-btn:active { transform: scale(0.9); }
 
-        /* Botón Hamburguesa (Oculto en PC) */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            cursor: pointer;
+        /* --- MOBILE OVERLAY (EL MENÚ PRO) --- */
+        .mobile-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(25px);
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
             z-index: 10001;
+            opacity: 0; pointer-events: none;
+            transition: var(--transition-smooth);
         }
 
-        /* --- RESPONSIVE / MOBILE MENU --- */
+        .mobile-overlay.active { opacity: 1; pointer-events: all; }
+
+        .mobile-nav-links {
+            display: flex; flex-direction: column; gap: 25px; text-align: center;
+        }
+
+        .mobile-nav-links a {
+            color: white; text-decoration: none; font-size: 32px;
+            font-weight: 700; opacity: 0; transform: translateY(20px);
+            transition: var(--transition-smooth);
+        }
+
+        /* Animación escalonada para los links */
+        .mobile-overlay.active .mobile-nav-links a {
+            opacity: 1; transform: translateY(0);
+        }
+
+        .mobile-nav-links a:nth-child(1) { transition-delay: 0.1s; }
+        .mobile-nav-links a:nth-child(2) { transition-delay: 0.2s; }
+        .mobile-nav-links a:nth-child(3) { transition-delay: 0.3s; }
+        .mobile-nav-links a:nth-child(4) { transition-delay: 0.4s; }
+        .mobile-nav-links a:nth-child(5) { transition-delay: 0.5s; }
+
+        .mobile-nav-links a:hover { color: var(--nexora-green); }
+
+        /* Estilo para el link activo en móvil */
+        .mobile-nav-links a.active { color: var(--nexora-green); }
+
         @media (max-width: 768px) {
-            .mobile-menu-btn { display: block; }
-
-            .nav-links {
-                position: fixed;
-                top: 0; right: -100%; /* Escondido a la derecha */
-                width: 80%; height: 100vh;
-                background: rgba(10, 10, 10, 0.98);
-                backdrop-filter: blur(20px);
-                flex-direction: column;
-                justify-content: center;
-                gap: 40px;
-                transition: var(--transition);
-                border-left: 1px solid var(--border);
-                z-index: 10000;
-            }
-
-            .nav-links.active {
-                right: 0; /* Aparece al activarse */
-            }
-
-            .nav-links a {
-                font-size: 20px;
-                font-weight: 600;
-            }
+            .nav-links-desktop { display: none; }
+            .menu-btn { display: block; }
         }
 
-        /* --- HERO & CONTENT (Sin cambios significativos) --- */
+        /* --- HERO --- */
         #hero {
-            height: 100vh;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; position: relative; overflow: hidden;
+            height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            position: relative; overflow: hidden;
         }
-
         canvas#bg-canvas { position: absolute; top: 0; left: 0; z-index: 1; }
         .hero-content { position: relative; z-index: 2; padding: 0 20px; }
-
-        .hero-badge {
-            background: var(--nexora-glow); color: var(--nexora-green);
-            padding: 6px 16px; border-radius: 100px;
-            font-size: 12px; font-weight: 600; margin-bottom: 20px;
-            display: inline-block; border: 1px solid var(--nexora-green);
-        }
-
-        h1.hero-title {
-            font-size: clamp(40px, 10vw, 100px);
-            font-weight: 800; letter-spacing: -0.05em; line-height: 1;
-            margin-bottom: 30px;
-            background: linear-gradient(180deg, #fff 0%, #444 100%);
+        
+        .hero-title {
+            font-size: clamp(45px, 8vw, 90px); font-weight: 800; line-height: 1;
+            background: linear-gradient(180deg, #fff 30%, #444 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-
-        .cta-group { display: flex; gap: 20px; justify-content: center; }
-
-        .btn-pro {
-            background: white; color: black; padding: 16px 35px;
-            border-radius: 100px; text-decoration: none; font-weight: 600;
-            transition: var(--transition);
-        }
-
-        .btn-outline {
-            background: transparent; color: white; padding: 16px 35px;
-            border-radius: 100px; text-decoration: none; font-weight: 600;
-            border: 1px solid var(--border); transition: var(--transition);
-        }
-
-        .stats-bar {
-            display: flex; justify-content: space-between;
-            padding: 60px 0; border-top: 1px solid var(--border);
-        }
-
-        @media (max-width: 768px) {
-            .stats-bar { flex-direction: column; gap: 40px; text-align: center; }
-            .cta-group { flex-direction: column; }
-        }
-
-        footer {
-            padding: 80px 5% 40px; text-align: center; border-top: 1px solid var(--border);
-            background: var(--bg-soft);
         }
     </style>
 </head>
@@ -167,106 +128,95 @@
 
     <nav>
         <div class="nav-inner">
-            <a href="index.html" class="logo-container">
+            <a href="#" class="logo-container">
                 <i data-lucide="layout-grid" style="color: var(--nexora-green)"></i>
                 NEXORA
             </a>
 
-            <button class="mobile-menu-btn" id="menu-toggle">
+            <div class="nav-links-desktop">
+                <a href="#">Inicio</a>
+                <a href="#">Servicios</a>
+                <a href="#">Soporte</a>
+                <a href="#">Contacto</a>
+                <a href="#">Acerca de</a>
+            </div>
+
+            <button class="menu-btn" id="menu-toggle">
                 <i data-lucide="menu" id="menu-icon"></i>
             </button>
-
-            <div class="nav-links" id="nav-links">
-                <a href="index.html" class="active">Inicio</a>
-                <a href="services.html">Servicios</a>
-                <a href="support.html">Soporte</a>
-                <a href="contact.html">Contacto</a>
-                <a href="about.html">Acerca de nosotros</a>
-            </div>
         </div>
     </nav>
+
+    <div class="mobile-overlay" id="mobile-menu">
+        <div class="mobile-nav-links">
+            <a href="index.html" class="active">Inicio</a>
+            <a href="services.html">Servicios</a>
+            <a href="support.html">Soporte</a>
+            <a href="contact.html">Contacto</a>
+            <a href="about.html">Nosotros</a>
+        </div>
+    </div>
 
     <section id="hero">
         <canvas id="bg-canvas"></canvas>
         <div class="hero-content">
-            <span class="hero-badge" data-aos="fade-down">CON NEXORA ESPERAMOS EL 2026</span>
-            <h1 class="hero-title" data-aos="zoom-in">Ingeniería<br>Sin Límites.</h1>
-            <p style="color: var(--text-dim); margin-bottom: 40px;" data-aos="fade-up">Desarrollo élite, infraestructura robusta y ciberseguridad.</p>
-            <div class="cta-group" data-aos="fade-up">
-                <a href="https://wa.me/50255630559" class="btn-pro">Iniciar Proyecto</a>
-                <a href="services.html" class="btn-outline">Explorar Servicios</a>
-            </div>
+            <h1 class="hero-title" data-aos="zoom-out">INGENIERÍA<br>ELÉCTRICA.</h1>
+            <p style="color: var(--text-dim); margin-top: 20px;">Diseñando infraestructuras de alto rendimiento.</p>
         </div>
     </section>
 
-    <div style="max-width: 1200px; margin: 0 auto; padding: 0 30px;">
-        <div class="stats-bar">
-            <div class="stat-item" data-aos="fade-up">
-                <h4 style="font-size: 40px; color: var(--nexora-green);">99.9%</h4>
-                <p style="color: var(--text-dim); font-size: 12px; letter-spacing: 1px;">UPTIME</p>
-            </div>
-            <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
-                <h4 style="font-size: 40px; color: var(--nexora-green);">Guatemala</h4>
-                <p style="color: var(--text-dim); font-size: 12px; letter-spacing: 1px;">ORIGEN</p>
-            </div>
-            <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
-                <h4 style="font-size: 40px; color: var(--nexora-green);">24/7</h4>
-                <p style="color: var(--text-dim); font-size: 12px; letter-spacing: 1px;">SOPORTE</p>
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        <p style="color: var(--text-dim); font-size: 13px;">Copyright © 2025 Nexora Technology.</p>
-    </footer>
-
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 1000, once: true });
+        AOS.init();
         lucide.createIcons();
 
-        // --- LÓGICA DEL MENÚ MÓVIL ---
+        // --- LÓGICA DEL MENÚ MEJORADA ---
         const menuToggle = document.getElementById('menu-toggle');
-        const navLinks = document.getElementById('nav-links');
+        const mobileMenu = document.getElementById('mobile-menu');
         const menuIcon = document.getElementById('menu-icon');
+        let isMenuOpen = false;
 
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
+        function toggleMenu() {
+            isMenuOpen = !isMenuOpen;
             
-            // Cambiar el icono de "menu" a "x"
-            const isOpen = navLinks.classList.contains('active');
-            menuIcon.setAttribute('data-lucide', isOpen ? 'x' : 'menu');
-            lucide.createIcons(); // Refrescar iconos de Lucide
-        });
+            // Toggle Clase Active
+            mobileMenu.classList.toggle('active');
+            
+            // FIX AL BUG DEL ICONO:
+            // Cambiamos el icono y volvemos a ejecutar lucide.createIcons() solo para ese elemento
+            if (isMenuOpen) {
+                menuToggle.innerHTML = '<i data-lucide="x"></i>';
+                document.body.style.overflow = 'hidden'; // Evita scroll al estar abierto
+            } else {
+                menuToggle.innerHTML = '<i data-lucide="menu"></i>';
+                document.body.style.overflow = 'auto'; // Habilita scroll
+            }
+            lucide.createIcons(); // Esto refresca el icono nuevo (X o Menu)
+        }
 
-        // Cerrar menú al hacer clic en un link (opcional pero recomendado)
-        document.querySelectorAll('.nav-links a').forEach(link => {
+        menuToggle.addEventListener('click', toggleMenu);
+
+        // Cerrar menú al hacer click en un link
+        document.querySelectorAll('.mobile-nav-links a').forEach(link => {
             link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                menuIcon.setAttribute('data-lucide', 'menu');
-                lucide.createIcons();
+                if(isMenuOpen) toggleMenu();
             });
         });
 
-        // --- ANIMACIÓN DE FONDO (CANVAS) ---
+
+        // --- FONDO ANIMADO ---
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
-
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.onresize = resize;
-        resize();
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.onresize = resize; resize();
 
         class Particle {
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.4;
-                this.vy = (Math.random() - 0.5) * 0.4;
-                this.size = 1.2;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
             }
             update() {
                 this.x += this.vx; this.y += this.vy;
@@ -275,28 +225,20 @@
             }
             draw() {
                 ctx.fillStyle = '#4ade80';
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
+                ctx.beginPath(); ctx.arc(this.x, this.y, 1, 0, Math.PI * 2); ctx.fill();
             }
         }
-
-        for(let i=0; i<70; i++) particles.push(new Particle());
-
+        for(let i=0; i<60; i++) particles.push(new Particle());
         function animate() {
             ctx.clearRect(0,0, canvas.width, canvas.height);
-            particles.forEach((p, index) => {
+            particles.forEach((p, i) => {
                 p.update(); p.draw();
-                for(let j=index+1; j<particles.length; j++) {
-                    const p2 = particles[j];
-                    const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-                    if(dist < 130) {
-                        ctx.strokeStyle = `rgba(74, 222, 128, ${0.15 - dist/130 * 0.15})`;
+                for(let j=i+1; j<particles.length; j++) {
+                    const dist = Math.hypot(p.x - particles[j].x, p.y - particles[j].y);
+                    if(dist < 120) {
+                        ctx.strokeStyle = `rgba(74, 222, 128, ${0.15 - dist/120 * 0.15})`;
                         ctx.lineWidth = 0.5;
-                        ctx.beginPath();
-                        ctx.moveTo(p.x, p.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.stroke();
+                        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke();
                     }
                 }
             });
