@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Proyecto | Nexora</title>
+    <title>Showcase | Nexora Engineering</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
@@ -12,33 +11,26 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     
     <style>
-        /* --- MISMO SISTEMA DE DISEÑO --- */
         :root {
             --bg-deep: #000000;
-            --bg-soft: #0a0a0a;
             --nexora-green: #4ade80;
             --nexora-glow: rgba(74, 222, 128, 0.15);
             --text-primary: #ffffff;
             --text-dim: #86868b;
             --glass: rgba(255, 255, 255, 0.03);
             --border: rgba(255, 255, 255, 0.08);
-            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        * {
-            margin: 0; padding: 0; box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-            -webkit-font-smoothing: antialiased;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
 
         body {
             background-color: var(--bg-deep);
             color: var(--text-primary);
             overflow-x: hidden;
-            line-height: 1.5;
         }
 
-        /* --- NAVEGACIÓN --- */
+        /* --- NAVIGATION (Misma que index) --- */
         nav {
             position: fixed;
             top: 0; width: 100%; height: 80px;
@@ -58,111 +50,136 @@
         .logo-container {
             display: flex; align-items: center; gap: 10px;
             text-decoration: none; color: white; font-weight: 700; font-size: 20px;
-            letter-spacing: -1px;
         }
 
-        .nav-links { display: flex; gap: 25px; align-items: center; }
-        .nav-links a {
-            color: var(--text-dim); text-decoration: none; font-size: 13px;
-            transition: var(--transition); font-weight: 500;
-        }
-        .nav-links a:hover { color: var(--nexora-green); }
-
-        /* --- CONTENIDO PROYECTO --- */
-        .project-section {
-            padding: 150px 5% 100px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
+        /* --- SHOWCASE HEADER --- */
+        .showcase-header {
+            padding: 160px 5% 60px;
+            text-align: center;
+            background: radial-gradient(circle at top, #0a1a0a 0%, #000 70%);
         }
 
-        .form-container {
-            width: 100%;
+        .showcase-header h1 {
+            font-size: clamp(40px, 6vw, 70px);
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            background: linear-gradient(180deg, #fff 30%, #4ade80 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .showcase-header p {
+            color: var(--text-dim);
             max-width: 600px;
+            margin: 0 auto;
+            font-size: 18px;
+        }
+
+        /* --- GRID DE PROYECTOS --- */
+        .projects-grid {
+            max-width: 1200px;
+            margin: 0 auto 100px;
+            padding: 0 5%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
             background: var(--glass);
             border: 1px solid var(--border);
-            padding: 40px;
-            border-radius: 30px;
-            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: var(--transition);
             position: relative;
-            z-index: 2;
         }
 
-        .form-header { text-align: center; margin-bottom: 40px; }
-        .form-header h1 { font-size: 32px; font-weight: 800; margin-bottom: 10px; }
-        .form-header p { color: var(--text-dim); font-size: 15px; }
-
-        .input-group { margin-bottom: 25px; }
-        .input-group label {
-            display: block;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--nexora-green);
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        input, select, textarea {
-            width: 100%;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border);
-            padding: 15px;
-            border-radius: 12px;
-            color: white;
-            font-size: 15px;
-            transition: var(--transition);
-        }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
+        .project-card:hover {
+            transform: translateY(-10px);
             border-color: var(--nexora-green);
-            background: rgba(74, 222, 128, 0.05);
+            box-shadow: 0 20px 40px rgba(74, 222, 128, 0.1);
         }
 
-        .btn-submit {
+        .img-container {
             width: 100%;
-            background: var(--nexora-green);
-            color: black;
-            border: none;
-            padding: 18px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 16px;
-            cursor: pointer;
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             transition: var(--transition);
-            display: flex;
+            filter: grayscale(40%);
+        }
+
+        .project-card:hover img {
+            transform: scale(1.1);
+            filter: grayscale(0%);
+        }
+
+        .card-content {
+            padding: 30px;
+        }
+
+        .card-tag {
+            color: var(--nexora-green);
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .card-content h3 {
+            font-size: 22px;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .card-content p {
+            color: var(--text-dim);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .btn-view {
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
+            gap: 8px;
+            color: white;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: var(--transition);
         }
 
-        .btn-submit:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(74, 222, 128, 0.2);
+        .btn-view:hover {
+            gap: 15px;
+            color: var(--nexora-green);
         }
 
-        /* --- FOOTER COMPACTO --- */
+        /* --- FOOTER --- */
         footer {
-            padding: 40px 5%;
+            padding: 60px 5%;
             text-align: center;
             border-top: 1px solid var(--border);
-            color: var(--text-dim);
-            font-size: 13px;
         }
 
-        /* Fondo Decorativo */
-        .glow-bg {
-            position: absolute;
-            top: 20%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 400px; height: 400px;
-            background: var(--nexora-green);
-            filter: blur(150px);
-            opacity: 0.05;
-            z-index: 1;
+        .brand-footer {
+            color: var(--nexora-green);
+            font-weight: 800;
+            letter-spacing: 3px;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .projects-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -174,69 +191,71 @@
                 <i data-lucide="layout-grid" style="color: var(--nexora-green)"></i>
                 NEXORA
             </a>
-            <div class="nav-links">
-                <a href="index.html">Inicio</a>
-                <a href="services.html">Servicios</a>
-                <a href="contact.html">Contacto</a>
+            <div style="display: flex; gap: 20px;">
+                <a href="index.html" style="color: white; text-decoration: none; font-size: 13px;">Volver al Inicio</a>
             </div>
         </div>
     </nav>
 
-    <section class="project-section">
-        <div class="glow-bg"></div>
-        
-        <div class="form-container" data-aos="fade-up">
-            <div class="form-header">
-                <i data-lucide="rocket" style="color: var(--nexora-green); margin-bottom: 15px;" size="40"></i>
-                <h1>Cuéntanos tu idea</h1>
-                <p>Estás a un paso de escalar tu infraestructura al siguiente nivel.</p>
+    <header class="showcase-header">
+        <span style="color: var(--nexora-green); font-size: 12px; font-weight: 700; letter-spacing: 3px;" data-aos="fade-down">PORTFOLIO DE INGENIERÍA</span>
+        <h1 data-aos="zoom-in">Proyectos Elite</h1>
+        <p data-aos="fade-up" data-aos-delay="200">Una mirada profunda a las infraestructuras y sistemas que hemos desplegado para liderar el mercado tecnológico.</p>
+    </header>
+
+    <section class="projects-grid">
+        <div class="project-card" data-aos="fade-up">
+            <div class="img-container">
+                <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc51?auto=format&fit=crop&q=80&w=800" alt="Data Center">
             </div>
+            <div class="card-content">
+                <span class="card-tag">INFRAESTRUCTURA</span>
+                <h3>Nexus Cloud Core</h3>
+                <p>Implementación de centro de datos híbrido con redundancia del 99.9% para sector financiero en Centroamérica.</p>
+                <a href="#" class="btn-view">VER DETALLES <i data-lucide="arrow-right" size="16"></i></a>
+            </div>
+        </div>
 
-            <form action="#">
-                <div class="input-group">
-                    <label>Nombre Completo</label>
-                    <input type="text" placeholder="Ej. Juan Pérez" required>
-                </div>
+        <div class="project-card" data-aos="fade-up" data-aos-delay="100">
+            <div class="img-container">
+                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800" alt="Software Development">
+            </div>
+            <div class="card-content">
+                <span class="card-tag">DESARROLLO</span>
+                <h3>ERP Neural Engine</h3>
+                <p>Plataforma de gestión de recursos basada en IA que optimiza la logística de distribución en tiempo real.</p>
+                <a href="#" class="btn-view">VER DETALLES <i data-lucide="arrow-right" size="16"></i></a>
+            </div>
+        </div>
 
-                <div class="input-group">
-                    <label>Correo Electrónico</label>
-                    <input type="email" placeholder="juan@empresa.com" required>
-                </div>
+        <div class="project-card" data-aos="fade-up" data-aos-delay="200">
+            <div class="img-container">
+                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800" alt="Cybersecurity">
+            </div>
+            <div class="card-content">
+                <span class="card-tag">SEGURIDAD</span>
+                <h3>Shield Protocol v2</h3>
+                <p>Auditoría y fortificación perimetral para redes gubernamentales contra ataques de día cero.</p>
+                <a href="#" class="btn-view">VER DETALLES <i data-lucide="arrow-right" size="16"></i></a>
+            </div>
+        </div>
 
-                <div class="input-group">
-                    <label>Tipo de Proyecto</label>
-                    <select>
-                        <option>Desarrollo de Software</option>
-                        <option>Infraestructura Cloud</option>
-                        <option>Ciberseguridad</option>
-                        <option>Consultoría Técnica</option>
-                    </select>
-                </div>
-
-                <div class="input-group">
-                    <label>Presupuesto Estimado</label>
-                    <select>
-                        <option>Menos de $1,000</option>
-                        <option>$1,000 - $5,000</option>
-                        <option>$5,000 - $10,000</option>
-                        <option>$10,000+</option>
-                    </select>
-                </div>
-
-                <div class="input-group">
-                    <label>Cuéntanos más</label>
-                    <textarea rows="4" placeholder="Describe brevemente los objetivos de tu proyecto..."></textarea>
-                </div>
-
-                <button type="submit" class="btn-submit">
-                    Enviar Propuesta <i data-lucide="arrow-right" size="18"></i>
-                </button>
-            </form>
+        <div class="project-card" data-aos="fade-up">
+            <div class="img-container">
+                <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800" alt="Automation">
+            </div>
+            <div class="card-content">
+                <span class="card-tag">AUTOMATIZACIÓN</span>
+                <h3>Smart Factory OS</h3>
+                <p>Control centralizado de líneas de producción industrial mediante sensores IoT y dashboards de baja latencia.</p>
+                <a href="#" class="btn-view">VER DETALLES <i data-lucide="arrow-right" size="16"></i></a>
+            </div>
         </div>
     </section>
 
     <footer>
-        <p>© 2025 Nexora Technology. <br> Ingeniería de vanguardia desde Guatemala.</p>
+        <div class="brand-footer">NEXORA TECHNOLOGY</div>
+        <p style="color: var(--text-dim); font-size: 12px;">© 2025 Engineering the Future. All Rights Reserved.</p>
     </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
