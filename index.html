@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexora | Engineering the Future</title>
     
+    <!-- FAVICON (Pestaña del navegador) -->
+    <link rel="icon" href="logo.png" type="image/png">
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -28,6 +31,11 @@
             margin: 0; padding: 0; box-sizing: border-box;
             font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
+            /* Evitar selección de texto para dar más sensación de "app" */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
         body {
@@ -64,6 +72,13 @@
             display: flex; align-items: center; gap: 10px;
             text-decoration: none; color: white; font-weight: 700; font-size: 20px;
             letter-spacing: -1px; z-index: 10001;
+        }
+
+        /* ESTILO PARA EL LOGO IMAGEN */
+        .brand-logo {
+            height: 28px; 
+            width: auto;
+            object-fit: contain;
         }
 
         .nav-links { display: flex; gap: 25px; align-items: center; }
@@ -111,7 +126,7 @@
             text-align: center; position: relative; overflow: hidden;
         }
 
-        canvas#bg-canvas { position: absolute; top: 0; left: 0; z-index: 1; }
+        canvas#bg-canvas { position: absolute; top: 0; left: 0; z-index: 1; pointer-events: none;}
         .hero-content { position: relative; z-index: 2; padding: 0 20px; }
 
         .hero-badge {
@@ -135,21 +150,31 @@
             color: var(--text-dim); max-width: 600px; margin: 0 auto 40px;
         }
 
-        .cta-group { display: flex; gap: 15px; justify-content: center; }
+        .cta-group { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
 
+        /* Botón Blanco (Iniciar Proyecto) */
         .btn-pro {
             background: white; color: black; padding: 16px 35px;
             border-radius: 100px; text-decoration: none; font-weight: 600;
             transition: var(--transition); border: 1px solid white;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
         }
-        .btn-pro:hover { background: transparent; color: white; transform: translateY(-5px); }
+        .btn-pro:hover { 
+            background: transparent; color: white; transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
+        }
 
+        /* Botón Verde (Explorar Servicios) - Ahora más visible y con luz */
         .btn-outline {
-            background: transparent; color: white; padding: 16px 35px;
+            background: var(--nexora-green); color: black; padding: 16px 35px;
             border-radius: 100px; text-decoration: none; font-weight: 600;
-            border: 1px solid var(--border); transition: var(--transition);
+            border: 1px solid var(--nexora-green); transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(74, 222, 128, 0.2);
         }
-        .btn-outline:hover { border-color: var(--nexora-green); color: var(--nexora-green); }
+        .btn-outline:hover { 
+            background: transparent; color: var(--nexora-green); transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(74, 222, 128, 0.4);
+        }
 
         /* --- STATS --- */
         .section-wrap { padding: 80px 5%; max-width: 1000px; margin: 0 auto; position: relative; z-index: 2; }
@@ -194,6 +219,122 @@
             font-size: 10px;
             letter-spacing: 2px;
             font-weight: 600;
+        }
+
+        /* --- COMMUNITY PROMO (Más elegante y menos escandaloso) --- */
+        .community-banner {
+            background: var(--glass); /* Fondo suave estilo cristal */
+            border: 1px solid var(--border); /* Borde sutil */
+            border-radius: 24px;
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: 20px;
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+
+        .community-banner:hover {
+            border-color: rgba(74, 222, 128, 0.3);
+            box-shadow: 0 10px 40px rgba(74, 222, 128, 0.05);
+        }
+
+        .community-banner::before {
+            content: '';
+            position: absolute; top: -50%; left: 50%; transform: translateX(-50%);
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(74,222,128,0.05) 0%, transparent 60%);
+            z-index: 0; pointer-events: none;
+        }
+
+        .community-content { position: relative; z-index: 1; }
+
+        .community-banner h2 {
+            font-size: clamp(28px, 4vw, 40px);
+            font-weight: 700;
+            color: white;
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+        }
+
+        .community-banner p {
+            color: var(--text-dim);
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .btn-community {
+            background: transparent;
+            color: var(--nexora-green);
+            padding: 16px 40px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+            border: 1px solid var(--nexora-green);
+        }
+
+        .btn-community:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(74, 222, 128, 0.3);
+            background: var(--nexora-green);
+            color: black;
+        }
+
+        /* --- WHATSAPP FLOAT BUTTON --- */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 65px;
+            height: 65px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50%;
+            text-align: center;
+            box-shadow: 0px 5px 20px rgba(37, 211, 102, 0.4);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            animation: pulse-wa 2s infinite;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1) translateY(-5px);
+        }
+
+        .wa-icon {
+            width: 35px;
+            height: 35px;
+            fill: currentColor;
+        }
+
+        @keyframes pulse-wa {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+
+        @media (max-width: 768px) {
+            .whatsapp-float {
+                bottom: 20px;
+                right: 20px;
+                width: 55px;
+                height: 55px;
+            }
+            .wa-icon {
+                width: 30px;
+                height: 30px;
+            }
         }
 
         /* --- FOOTER & SOCIAL --- */
@@ -259,7 +400,7 @@
     <nav>
         <div class="nav-inner">
             <a href="index.html" class="logo-container">
-                <i data-lucide="layout-grid" style="color: var(--nexora-green)"></i>
+                <img src="logo.png" alt="Nexora Logo" class="brand-logo" onerror="this.src='https://via.placeholder.com/32x32/4ade80/000000?text=N'">
                 NEXORA
             </a>
 
@@ -290,7 +431,8 @@
         </div>
     </section>
 
-    <div class="section-wrap">
+    <!-- STATS -->
+    <div class="section-wrap" style="padding-bottom: 40px;">
         <div class="stats-container">
             <div class="stat-card" data-aos="fade-up">
                 <i data-lucide="shield-check" size="24"></i> <span class="stat-number" data-target="99.9">0</span>
@@ -311,6 +453,19 @@
         </div>
     </div>
 
+    <!-- SECCIÓN COMUNIDAD -->
+    <div class="section-wrap" style="padding-top: 0;">
+        <div class="community-banner" data-aos="zoom-in">
+            <div class="community-content">
+                <h2>Únete a nuestra <span style="color: var(--nexora-green);">comunidad</span></h2>
+                <p>Forma parte de un ecosistema exclusivo de visionarios, emprendedores y líderes tecnológicos. Accede a recursos de primer nivel y estrategias de escalabilidad.</p>
+                <a href="comunidad.html" class="btn-community">
+                    Ingresar Ahora <i data-lucide="arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
     <footer class="footer-modern">
         <div class="social-wrapper" data-aos="fade-up">
             <a href="#" class="social-btn"><i data-lucide="facebook"></i></a>
@@ -320,16 +475,47 @@
         
         <div class="footer-content" data-aos="fade-up" data-aos-delay="200">
             <p class="footer-copy">© 2025 Nexora Technology. <br> Diseñando la infraestructura digital del mañana desde el corazón de Centroamérica.</p>
-            <div style="margin-top: 25px; opacity: 0.4;">
-                <i data-lucide="layout-grid" style="color: var(--nexora-green); width: 20px;"></i>
+            <div style="margin-top: 25px; opacity: 0.6;">
+                <img src="logo.png" alt="Nexora Logo" style="height: 24px; width: auto;" onerror="this.src='https://via.placeholder.com/24x24/4ade80/000000?text=N'">
             </div>
             <p class="brand-motto">Stay Hungry. Stay Foolish.</p>
         </div>
     </footer>
 
+    <!-- BOTÓN FLOTANTE WHATSAPP -->
+    <!-- Reemplaza el enlace por tu número real en formato internacional (Ej: https://wa.me/50212345678) -->
+    <a href="https://wa.me/12345678" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contáctanos por WhatsApp">
+        <svg viewBox="0 0 32 32" class="wa-icon">
+            <path d="M16.002 1.332C7.907 1.332 1.334 7.907 1.334 16.002c0 2.658.705 5.15 1.956 7.338l-2.074 7.574 7.752-2.033a14.542 14.542 0 0 0 7.034 1.815c8.095 0 14.668-6.575 14.668-14.67 0-8.095-6.573-14.694-14.668-14.694zm7.625 21.018c-.318.896-1.532 1.636-2.583 1.815-.815.138-1.896.257-5.46-1.221-4.254-1.764-7.01-6.104-7.227-6.393-.217-.29-1.722-2.29-1.722-4.372 0-2.082 1.085-3.113 1.465-3.51.38-.396.832-.496 1.104-.496.271 0 .543.003.778.012.245.011.574-.095.897.683.344.825 1.121 2.741 1.22 2.94.1.198.163.429.045.66s-.18.376-.36.558c-.18.182-.373.4-.539.544-.182.163-.374.341-.173.688.198.347.886 1.47 1.905 2.378 1.314 1.17 2.418 1.533 2.76 1.698.344.166.544.149.743-.066.198-.215.851-.99 1.085-1.33.235-.34.47-.282.778-.165.308.115 1.954.925 2.289 1.09.334.165.56.248.64.381.082.133.082.76-.235 1.655z"></path>
+        </svg>
+    </a>
+
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Inicialización General
+        // --- PROTECCIÓN DEL CÓDIGO ---
+        // Deshabilitar click derecho
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        // Deshabilitar atajos de teclado para inspeccionar (F12, Ctrl+Shift+I, Ctrl+U, etc.)
+        document.addEventListener('keydown', function(e) {
+            if (e.keyCode === 123) { // F12
+                e.preventDefault();
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) { // Ctrl+Shift+I
+                e.preventDefault();
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 67) { // Ctrl+Shift+C
+                e.preventDefault();
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 74) { // Ctrl+Shift+J
+                e.preventDefault();
+            }
+            if (e.ctrlKey && e.keyCode === 85) { // Ctrl+U (Ver código fuente)
+                e.preventDefault();
+            }
+        });
+
+        // --- INICIALIZACIÓN GENERAL ---
         AOS.init({ duration: 1000, once: true });
         lucide.createIcons();
 
